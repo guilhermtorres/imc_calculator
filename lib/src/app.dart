@@ -10,6 +10,7 @@ class ImcCalculator extends StatelessWidget {
         primaryColor: Colors.amber[800],
         fontFamily: 'AbrilFatface',
         accentColor: Colors.black54,
+        errorColor: Colors.amber[800],
         appBarTheme: AppBarTheme(
           elevation: 5,
           textTheme: TextTheme(

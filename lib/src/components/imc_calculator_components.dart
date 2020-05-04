@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+GlobalKey<FormState> formKey = GlobalKey<FormState>();
+final globalKey = GlobalKey<_ImcCalculatorComponentsState>();
+
 class ImcCalculatorComponents extends StatefulWidget {
+  final TextEditingController weightController;
+  final TextEditingController heightController;
+  ImcCalculatorComponents({this.weightController, this.heightController});
   @override
   _ImcCalculatorComponentsState createState() => _ImcCalculatorComponentsState();
 }
@@ -8,47 +14,34 @@ class ImcCalculatorComponents extends StatefulWidget {
 class _ImcCalculatorComponentsState extends State<ImcCalculatorComponents> {
   void calculate() {
     setState(() {
-      double weight = double.parse(weightController.text);
-      double height = double.parse(heightController.text) / 100;
+      double weight = double.parse(widget.weightController.text);
+      double height = double.parse(widget.heightController.text) / 100;
       double imc = weight / (height * height);
       if (imc < 18.6) {
-        _infoText = 'Abaixo do Peso (${imc.toStringAsPrecision(3)})';
+        infoText = 'Abaixo do Peso (${imc.toStringAsPrecision(3)})';
       } else if (imc >= 18.6 && imc < 24.9) {
-        _infoText = 'Peso Ideal (${imc.toStringAsPrecision(3)})';
+        infoText = 'Peso Ideal (${imc.toStringAsPrecision(3)})';
       } else if (imc >= 24.9 && imc < 29.9) {
-        _infoText = 'Levemente Acima do Peso (${imc.toStringAsPrecision(3)})';
+        infoText = 'Levemente Acima do Peso (${imc.toStringAsPrecision(3)})';
       } else if (imc >= 29.9 && imc < 34.9) {
-        _infoText = 'Obesidade Grau I (${imc.toStringAsPrecision(3)})';
+        infoText = 'Obesidade Grau I (${imc.toStringAsPrecision(3)})';
       } else if (imc >= 34.9 && imc < 39.9) {
-        _infoText = 'Obesidade Grau II (${imc.toStringAsPrecision(3)})';
+        infoText = 'Obesidade Grau II (${imc.toStringAsPrecision(3)})';
       } else if (imc >= 40 && imc < 59.9) {
-        _infoText = 'Obesidade Grau III (${imc.toStringAsPrecision(3)})';
+        infoText = 'Obesidade Grau III (${imc.toStringAsPrecision(3)})';
       } else {
-        _infoText = 'Operação Inválida (${imc.toStringAsPrecision(3)})';
+        infoText = 'Operação Inválida (${imc.toStringAsPrecision(3)})';
       }
     });
   }
 
-  TextEditingController weightController = TextEditingController();
-  TextEditingController heightController = TextEditingController();
-
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  String _infoText = 'Informe seus Dados!';
-  void resetFields() {
-    weightController.text = "";
-    heightController.text = "";
-    setState(() {
-      _infoText = "Informe seus dados!";
-      _formKey = GlobalKey<FormState>(); // ADICIONE ESTA LINHA!
-    });
-  }
+  String infoText = 'Informe suas Medidas';
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -63,11 +56,12 @@ class _ImcCalculatorComponentsState extends State<ImcCalculatorComponents> {
             Padding(
               padding: const EdgeInsets.all(20),
               child: TextFormField(
-                controller: weightController,
+                controller: widget.weightController,
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value.isEmpty)
                     return 'Insira seu Peso!';
-                  }
+                  else
+                    return null;
                 },
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -90,11 +84,12 @@ class _ImcCalculatorComponentsState extends State<ImcCalculatorComponents> {
               padding: const EdgeInsets.all(20),
               child: TextFormField(
                 validator: (value) {
-                  if (value.isEmpty) {
+                  if (value.isEmpty)
                     return 'Insira sua Altura!';
-                  }
+                  else
+                    return null;
                 },
-                controller: heightController,
+                controller: widget.heightController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
@@ -118,7 +113,7 @@ class _ImcCalculatorComponentsState extends State<ImcCalculatorComponents> {
                 height: 50,
                 child: RaisedButton(
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
+                    if (formKey.currentState.validate()) {
                       calculate();
                     }
                   },
@@ -138,7 +133,7 @@ class _ImcCalculatorComponentsState extends State<ImcCalculatorComponents> {
               height: 20,
             ),
             Text(
-              _infoText,
+              formKey.currentState != null ? formKey.currentState.validate() ? infoText : 'Informe suas Medidas' : ' ',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 22,

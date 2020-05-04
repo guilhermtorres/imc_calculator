@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:imc_calculator/src/components/imc_calculator_components.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  TextEditingController weightController = TextEditingController();
+  TextEditingController heightController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,11 +23,19 @@ class HomeView extends StatelessWidget {
             icon: Icon(
               Icons.refresh,
             ),
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                weightController.clear();
+                heightController.clear();
+              });
+            },
           )
         ],
       ),
-      body: ImcCalculatorComponents(),
+      body: ImcCalculatorComponents(
+        weightController: weightController,
+        heightController: heightController,
+      ),
     );
   }
 }
