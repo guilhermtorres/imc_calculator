@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:imc_calculator/src/components/imc_calculator_components.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -10,15 +11,16 @@ class HomeView extends StatelessWidget {
         ),
         centerTitle: true,
         elevation: 5,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.refresh,
+            ),
+            onPressed: () {},
+          )
+        ],
       ),
-      body: Center(
-        child: Text(
-          'Aqui vai o corpo do app!',
-          style: TextStyle(
-            fontSize: 24,
-          ),
-        ),
-      ),
+      body: ImcCalculatorComponents(),
     );
   }
 }

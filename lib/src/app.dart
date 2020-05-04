@@ -7,9 +7,9 @@ class ImcCalculator extends StatelessWidget {
     return MaterialApp(
       home: HomeView(),
       theme: ThemeData(
-        primaryColor: Colors.amber,
+        primaryColor: Colors.amber[800],
         fontFamily: 'AbrilFatface',
-        accentColor: Colors.yellow,
+        accentColor: Colors.black54,
         appBarTheme: AppBarTheme(
           elevation: 5,
           textTheme: TextTheme(
